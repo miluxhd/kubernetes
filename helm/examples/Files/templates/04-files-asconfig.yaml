@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-files-asconfig-example
+data:
+  # Convert files to ConfigMap format
+  {{- $configFiles := .Files.Glob "config/*.yaml" }}
+{{ $configFiles.AsConfig | indent 2 }}
+  
+  # Include all JSON files as config
+  {{- $jsonFiles := .Files.Glob "config/*.json" }}
+{{ $jsonFiles.AsConfig | indent 2 }}

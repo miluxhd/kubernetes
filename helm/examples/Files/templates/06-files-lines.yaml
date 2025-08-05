@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-files-lines-example
+data:
+  # Get file contents as array of lines
+  {{- $lines := .Files.Lines "data/whitelist.txt" }}
+  {{- range $index, $line := $lines }}
+  line-{{ add $index 1 }}: {{ $line | quote }}
+  {{- end }}
+  
+  # Join lines back into a single string
+  whitelist-combined: |
+{{ .Files.Lines "data/whitelist.txt" | join "\n" | indent 4 }}
+  
+  # Processing lines with conditions
+  {{- $lines := .Files.Lines "data/whitelist.txt" }}
+  {{- range $index, $line := $lines }}
+  {{- if hasPrefix "192.168" $line }}
+  private-network-{{ add $index 1 }}: {{ $line | quote }}
+  {{- else if hasPrefix "10.0" $line }}
+  class-a-network-{{ add $index 1 }}: {{ $line | quote }}
+  {{- else }}
+  other-network-{{ add $index 1 }}: {{ $line | quote }}
+  {{- end }}
+  {{- end }} 
+
+  # Join lines with a comma
+  whitelist-comma-separated: |
+{{ .Files.Lines "data/whitelist.txt" | join "," | indent 4 }}

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Release.Name }}-files-getbytes-example
+type: Opaque
+data:
+  # This would be used for binary files like certificates, keys, etc.
+  database-key: {{ .Files.GetBytes "secrets/database.key" | toString | b64enc }}
+  
+  # Reading a text file as bytes (for demonstration)
+  config-as-bytes: {{ .Files.GetBytes "config/config.txt" | toString | b64enc }} 

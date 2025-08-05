@@ -1,0 +1,9 @@
+# Application Configuration
+app_name: my-application
+version: 1.0.0
+debug: true
+log_level: INFO
+database:
+  host: localhost
+  port: 5432
+  name: myapp 

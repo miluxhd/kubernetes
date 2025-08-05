@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-files-get-example
+data:
+  # .Files.Get - Get file contents as string
+  config.txt: |
+{{ .Files.Get "config/config.txt" | indent 4 }}
+  
+  # Reading JSON file as string
+  app-config.json: |
+{{ .Files.Get "config/app-config.json" | indent 4 }}
+  
+  # Reading YAML file as string
+  settings.yaml: |
+{{ .Files.Get "config/settings.yaml" | indent 4 }} 
