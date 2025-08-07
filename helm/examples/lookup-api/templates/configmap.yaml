@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-api-results
+  labels:
+    app: {{ .Release.Name }}
+data:
+  demo-annotation: |
+{{- $deployment := lookup "apps/v1" "Deployment" "default" "custom-nginx" }}
+{{- if $deployment }}
+     {{ index $deployment.metadata.annotations "demo.annotation" | default "not found" }}
+{{- else }}
+     not found
+{{- end }}
